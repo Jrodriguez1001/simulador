@@ -5,10 +5,12 @@
   let valoresX = [];
 
   import { createEventDispatcher } from "svelte";
+
   const dispatch = createEventDispatcher();
-  let amplitud = 1;
-  let amortiguamiento = 1;
-  let frecuencia = 1;
+  
+  let amplitud;
+  let amortiguamiento;
+  let frecuencia;
   let eje_x = [];
   let eje_x2 = [];
   let eje_y = [];
@@ -18,7 +20,9 @@
   let canvasElement;
 
   function calcular() {
-    if (!isMounted) return;
+    if (!isMounted || !amplitud || !amortiguamiento || !frecuencia) {
+      return; // Si alguno de los valores no está presente, no hacer nada.
+    }
     eje_x = [];
     eje_x2 = [];
     eje_y = [];
@@ -111,27 +115,30 @@
       amortiguamiento,
       frecuencia,
       graphGenerated: true,
+      valoresX,
     });
   }
   onMount(() => {
     isMounted = true;
-    calcular();
+    // calcular();
   });
   $: {
     valoresX = [];
-    calcular();
-    for (let t = 1; t <= 10; t++) {
-      let x =
-        amplitud * Math.exp(-amortiguamiento * t) * Math.sin(frecuencia * t);
-      valoresX.push({ tiempo: t, valor: x });
+    if (amplitud && amortiguamiento && frecuencia) {
+      calcular();
+      for (let t = 1; t <= 10; t++) {
+        let x =
+          amplitud * Math.exp(-amortiguamiento * t) * Math.sin(frecuencia * t);
+        valoresX.push({ tiempo: t, valor: x });
+      }
+      dispatch("updateValues", {
+        amplitud,
+        amortiguamiento,
+        frecuencia,
+        graphGenerated: true,
+        valoresX,
+      });
     }
-    dispatch("updateValues", {
-      amplitud,
-      amortiguamiento,
-      frecuencia,
-      graphGenerated: true,
-      valoresX,
-    });
   }
 </script>
 
@@ -149,7 +156,6 @@
   Frecuencia angular (&omega;):<input bind:value={frecuencia} type="number" /> (rad/s)</label
 >
 
-<!-- <button on:click={calcular}>Dibujar Gráfico</button> -->
 <div id="contenedor">
   <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
 </div>

@@ -2,9 +2,9 @@
   import Form from "./Form.svelte";
   import Tabla from "./Tabla.svelte";
 
-  let amplitud = 1;
-  let amortiguamiento = 1;
-  let frecuencia = 1;
+  let amplitud;
+  let amortiguamiento;
+  let frecuencia;
   let showTabla = false;
   let valoresX = [];
   function handleUpdateValues(event) {
@@ -28,7 +28,7 @@
     <img src="./assets/test2.png" alt="imagen de ecuación 1" />
   </div>
   <Form on:updateValues={handleUpdateValues} />
-  {#if showTabla}
+  {#if amplitud && amortiguamiento && frecuencia && showTabla}
     <Tabla {amplitud} {amortiguamiento} {frecuencia} {valoresX} />
   {/if}
 </div>
