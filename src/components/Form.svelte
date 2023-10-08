@@ -123,23 +123,31 @@
     // calcular();
   });
   $: {
-    valoresX = [];
-    if (amplitud && amortiguamiento && frecuencia) {
-      calcular();
-      for (let t = 1; t <= 10; t++) {
-        let x =
-          amplitud * Math.exp(-amortiguamiento * t) * Math.sin(frecuencia * t);
-        valoresX.push({ tiempo: t, valor: x });
-      }
-      dispatch("updateValues", {
-        amplitud,
-        amortiguamiento,
-        frecuencia,
-        graphGenerated: true,
-        valoresX,
-      });
+  valoresX = [];
+  if (amplitud && amortiguamiento && frecuencia) {
+    calcular();
+    for (let t = 1; t <= 10; t++) {
+      let x = amplitud * Math.exp(-amortiguamiento * t) * Math.sin(frecuencia * t);
+      valoresX.push({ tiempo: t, valor: x });
     }
+    dispatch("updateValues", {
+      amplitud,
+      amortiguamiento,
+      frecuencia,
+      graphGenerated: true,
+      valoresX,
+    });
+  } else if (myChart) {
+    myChart.destroy();
+    dispatch("updateValues", {
+      amplitud: null,
+      amortiguamiento: null,
+      frecuencia: null,
+      graphGenerated: false,
+      valoresX: [],
+    });
   }
+}
 </script>
 
 <label
