@@ -1,6 +1,11 @@
 <script>
   import Chart from "chart.js/auto";
+  import { onMount } from "svelte";
+  let isMounted = false;
+  let valoresX = [];
 
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   let amplitud = 1;
   let amortiguamiento = 1;
   let frecuencia = 1;
@@ -13,6 +18,7 @@
   let canvasElement;
 
   function calcular() {
+    if (!isMounted) return;
     eje_x = [];
     eje_x2 = [];
     eje_y = [];
@@ -86,24 +92,66 @@
         scales: {
           x: {
             type: "linear",
+            title: {
+              display: true, // Añadido
+              text: "Tiempo (s)", // Añadido
+            },
+          },
+          y: {
+            title: {
+              display: true, // Añadido
+              text: "Amplitud (m)", // Añadido
+            },
           },
         },
       },
     });
+    dispatch("updateValues", {
+      amplitud,
+      amortiguamiento,
+      frecuencia,
+      graphGenerated: true,
+    });
   }
-  
+  onMount(() => {
+    isMounted = true;
+    calcular();
+  });
+  $: {
+    valoresX = [];
+    calcular();
+    for (let t = 1; t <= 10; t++) {
+      let x =
+        amplitud * Math.exp(-amortiguamiento * t) * Math.sin(frecuencia * t);
+      valoresX.push({ tiempo: t, valor: x });
+    }
+    dispatch("updateValues", {
+      amplitud,
+      amortiguamiento,
+      frecuencia,
+      graphGenerated: true,
+      valoresX,
+    });
+  }
 </script>
 
-<label>Amplitud: <input bind:value={amplitud} type="number" /></label>
 <label
-  >Amortiguamiento: <input bind:value={amortiguamiento} type="number" /></label
+  >Amplitud (<em>A</em>): <input bind:value={amplitud} type="number" /> (metros)</label
 >
-<label>Frecuencia: <input bind:value={frecuencia} type="number" /></label>
+<label
+  >Coeficiente de amortiguamiento (-&gamma;): <input
+    bind:value={amortiguamiento}
+    type="number"
+  />
+  (s<sup>-1</sup>)</label
+>
+<label>
+  Frecuencia angular (&omega;):<input bind:value={frecuencia} type="number" /> (rad/s)</label
+>
 
-<button on:click={calcular}>Dibujar Gráfico</button>
-
+<!-- <button on:click={calcular}>Dibujar Gráfico</button> -->
 <div id="contenedor">
-    <canvas id="myChart" bind:this={canvasElement} width="600" height="400"></canvas>
+  <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
 </div>
 
 <style>

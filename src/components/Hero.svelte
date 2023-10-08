@@ -1,5 +1,19 @@
 <script>
-    import Form from "./Form.svelte";
+  import Form from "./Form.svelte";
+  import Tabla from "./Tabla.svelte";
+
+  let amplitud = 1;
+  let amortiguamiento = 1;
+  let frecuencia = 1;
+  let showTabla = false;
+  let valoresX = [];
+  function handleUpdateValues(event) {
+    amplitud = event.detail.amplitud;
+    amortiguamiento = event.detail.amortiguamiento;
+    frecuencia = event.detail.frecuencia;
+    showTabla = event.detail.graphGenerated;
+    valoresX = event.detail.valoresX;
+  }
 </script>
 
 <div class="container">
@@ -13,7 +27,10 @@
   <div class="formula">
     <img src="./assets/test2.png" alt="imagen de ecuación 1" />
   </div>
-  <Form />
+  <Form on:updateValues={handleUpdateValues} />
+  {#if showTabla}
+    <Tabla {amplitud} {amortiguamiento} {frecuencia} {valoresX} />
+  {/if}
 </div>
 
 <style>
