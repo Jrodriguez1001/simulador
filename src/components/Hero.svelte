@@ -43,6 +43,7 @@
     flex-direction: column;
     font-family: Arial, sans-serif;
     width: 100%;
+    margin-top: 120px;
   }
 
   .formula {

@@ -1,0 +1,82 @@
+---
+let nav;
+
+nav = [
+  [
+    { name: "Simulador", href: "/" },
+    { name: "Docentes", href: "/#" },
+  ],
+];
+---
+
+<div class="container">
+  <div>
+    <a href="#">
+    <img src="/assets/logo-untels.png" alt="Logo" width="200" /></a>
+  </div>
+  <div>
+    <nav>
+      <ul>
+        {
+          nav[0].map((item) => (
+            <li>
+              <a href={item.href}>{item.name}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>
+<style>
+  .container {
+    margin: 0;
+    padding: 30px 20px; /* Añadido padding para separación y aspecto agradable */
+    display: flex;
+    justify-content: space-around; /* Distribución de espacio entre logo e items del nav */
+    align-items: center;
+    flex-direction: row; /* Cambiado a row para que logo e items estén en una sola fila */
+    font-family: Arial, sans-serif;
+    width: 100%;
+    position: fixed; /* Se mantiene fijo en la parte superior */
+    top: 0; /* Se posiciona al inicio del viewport */
+    background-color: white; /* Fondo blanco para que el contenido detrás no sea visible al hacer scroll */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad al header */
+    z-index: 1000; /* z-index alto para asegurarse de que esté por encima de otros elementos */
+  }
+
+  /* Estilo para el logo */
+  .container img {
+    margin-right: auto; /* Alinea el logo a la izquierda */
+  }
+
+  /* Estilo para la navegación */
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  nav li {
+    margin: 0 10px;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 5px 10px; /* Añadido padding para un mejor aspecto */
+    border-radius: 5px; /* Bordes redondeados para un mejor aspecto */
+    transition: background-color 0.3s; /* Transición suave al cambiar el fondo */
+  }
+
+  nav a:hover {
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.05
+    ); /* Cambio sutil de fondo al pasar el mouse */
+  }
+</style>
