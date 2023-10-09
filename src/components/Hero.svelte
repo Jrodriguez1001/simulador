@@ -32,26 +32,27 @@
   }
 </script>
 
-<div class="container">
-  <h1>Simulador de Resistencia de Materiales</h1>
-  <div class="description">
-    <p>La ecuación del movimiento expresada de manera diferencial es:</p>
-    <div class="ecuacion-one">
-      <img src="./assets/test1.png" alt="imagen de ecuación 1" />
+<main class="container">
+  <div class="contentLayout">
+    <h1>Simulador de Resistencia de Materiales</h1>
+    <div class="description">
+      <p>La ecuación del movimiento expresada de manera diferencial es:</p>
+      <div class="ecuacion-one">
+        <img src="./assets/test1.png" alt="imagen de ecuación 1" />
+      </div>
     </div>
-  </div>
-  <div class="solution">
-    <p>La solución de la ecuación diferencial se resuelve en:</p>
-    <div class="ecuacion-two">
-      <img src="./assets/test2.png" alt="imagen de ecuación 2" />
+    <div class="solution">
+      <p>La solución de la ecuación diferencial se resuelve en:</p>
+      <div class="ecuacion-two">
+        <img src="./assets/test2.png" alt="imagen de ecuación 2" />
+      </div>
     </div>
+    <Tabla {amplitud} {amortiguamiento} {frecuencia} {valoresX} /> 
   </div>
-
-  <Form on:updateValues={handleUpdateValues} />
-  {#if amplitud && amortiguamiento && frecuencia && showTabla}
-    <Tabla {amplitud} {amortiguamiento} {frecuencia} {valoresX} />
-  {/if}
-</div>
+  <div>
+    <Form on:updateValues={handleUpdateValues} />
+  </div>
+</main>
 
 <style>
   .container {
@@ -60,19 +61,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     font-family: Arial, sans-serif;
     width: 100%;
     margin-top: 120px;
   }
 .container h1{
-  margin-bottom: 60px;
+  margin-bottom: 2em;
+  text-align: center;
+}
+.contentLayout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2em;
 }
   .description {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    flex-direction: column;
     margin-bottom: 20px;
   }
   .solution {

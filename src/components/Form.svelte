@@ -1,13 +1,13 @@
 <script lang="ts">
   import Chart from "chart.js/auto";
-  import { onMount } from "svelte";
  
   interface XValues { 
     tiempo: number, 
     valor: number 
   }
 
-  let isMounted = false;
+  type Parametro = 'amplitud' | "amortiguamiento" | "frecuencia"
+
   let valoresX : XValues[] = [];
 
   import { createEventDispatcher } from "svelte";
@@ -134,66 +134,57 @@
       valoresX,
     });
   }
-  function incrementarValor(tipo) {
-    if (tipo === "amplitud" && amplitud === null) {
-      amplitud = 0;
-    } else if (tipo === "amortiguamiento" && amortiguamiento === null) {
-      amortiguamiento = 0;
-    } else if (tipo === "frecuencia" && frecuencia === null) {
-      frecuencia = 0;
-    }
 
-    if (tipo === "amplitud") {
-      amplitud += 1;
-    } else if (tipo === "amortiguamiento") {
-      amortiguamiento += 1;
-    } else if (tipo === "frecuencia") {
-      frecuencia += 1;
-    }
+  
 
-    calcular();
-  }
-
-  function decrementarValor(tipo) {
-    // Si es null, establecer a 0
-    if (tipo === "amplitud" && amplitud === null) {
-      amplitud = 0;
-    } else if (tipo === "amortiguamiento" && amortiguamiento === null) {
-      amortiguamiento = 0;
-    } else if (tipo === "frecuencia" && frecuencia === null) {
-      frecuencia = 0;
-    }
-
-    // Decrementar el valor
-    if (tipo === "amplitud") {
-      amplitud -= 1;
-      if (amplitud < 0) amplitud = 0; // Asegurar que no sea menor que 0
-    } else if (tipo === "amortiguamiento") {
-      amortiguamiento -= 1;
-      if (amortiguamiento < 0) amortiguamiento = 0; // Asegurar que no sea menor que 0
-    } else if (tipo === "frecuencia") {
-      frecuencia -= 1;
-      if (frecuencia < 0) frecuencia = 0; // Asegurar que no sea menor que 0
+  function triggerValueChange(tipo: Parametro, value: number) {
+    switch (tipo) {
+      case "amplitud": {
+        if(amplitud === null) amplitud = 0
+        amplitud += value;
+        if(amplitud < 0) amplitud = 0;
+        break;
+      }
+      case "amortiguamiento": {
+        if(amortiguamiento === null) amortiguamiento = 0
+        amortiguamiento += value;
+        if(amortiguamiento < 0) amortiguamiento = 0;
+        break;
+      }
+      case "frecuencia": {
+        if(frecuencia === null) frecuencia = 0
+        frecuencia += value;
+        if(frecuencia < 0) frecuencia = 0;
+        break;
+      }
+      default: return tipo as never;
     }
 
     calcular();
   }
-  function handleInput(event, type) {
-    let value = event.target.value;
-    if (value === "") {
-      if (type === "amplitud") amplitud = null;
-      if (type === "amortiguamiento") amortiguamiento = null;
-      if (type === "frecuencia") frecuencia = null;
-    } else {
-      if (type === "amplitud") amplitud = +value;
-      if (type === "amortiguamiento") amortiguamiento = +value;
-      if (type === "frecuencia") frecuencia = +value;
+
+  function handleInput(event: Event, type: Parametro) {
+    const value = (event.target as HTMLInputElement).value;
+    switch (type) {
+      case "amplitud": {
+        if (value === "") return amplitud = null
+        amplitud = +value;
+        break;
+      }
+      case "amortiguamiento": {
+        if (value === "") return amortiguamiento = null
+        amortiguamiento = +value;
+        break;
+      }
+      case "frecuencia": {
+        if (value === "") return frecuencia = null
+        frecuencia = +value;
+        break;
+      }
+      default: return type as never;
     }
   }
-  onMount(() => {
-    isMounted = true;
-    // calcular();
-  });
+
   $: {
     valoresX = [];
     if (amplitud && amortiguamiento && frecuencia) {
@@ -238,8 +229,8 @@
           <p>(metros)</p>
         </div>
         <div>
-          <button on:click={() => decrementarValor("amplitud")}>-</button>
-          <button on:click={() => incrementarValor("amplitud")}>+</button>
+          <button on:click={() => triggerValueChange("amplitud", -1)}>-</button>
+          <button on:click={() => triggerValueChange("amplitud", 1)}>+</button>
         </div>
       </div>
     </div>
@@ -257,9 +248,9 @@
           <p>(s<sup>-1</sup>)</p>
         </div>
         <div>
-          <button on:click={() => decrementarValor("amortiguamiento")}>-</button
+          <button on:click={() => triggerValueChange("amortiguamiento", -1)}>-</button
           >
-          <button on:click={() => incrementarValor("amortiguamiento")}>+</button
+          <button on:click={() => triggerValueChange("amortiguamiento", 1)}>+</button
           >
         </div>
       </div>
@@ -279,8 +270,8 @@
         </div>
 
         <div>
-          <button on:click={() => decrementarValor("frecuencia")}>-</button>
-          <button on:click={() => incrementarValor("frecuencia")}>+</button>
+          <button on:click={() => triggerValueChange("frecuencia", -1)}>-</button>
+          <button on:click={() => triggerValueChange("frecuencia", 1)}>+</button>
         </div>
       </div>
     </div>
@@ -373,10 +364,11 @@
   }
   .contenedero{
     display: flex;
+    flex: 1;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    gap: 40px;
+    flex-direction: column;
+    gap: 20px;
     margin-bottom: 40px;
   }
 </style>
