@@ -1,13 +1,29 @@
+---
+import NavBar from "../components/NavBar.astro";
+---
+
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
+    <meta name="description" content="Simulador de Resistencia de Materiales" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body>
+  <body
+    ><NavBar />
     <slot />
   </body>
 </html>
+
+<style is:global>
+  h1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 40px;
+  }
+  p{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+  }
+</style>
