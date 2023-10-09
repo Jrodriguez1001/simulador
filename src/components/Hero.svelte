@@ -1,13 +1,29 @@
-<script>
+<script lang="ts">
   import Form from "./Form.svelte";
   import Tabla from "./Tabla.svelte";
 
-  let amplitud;
-  let amortiguamiento;
-  let frecuencia;
+  interface XValues { 
+    tiempo: number, 
+    valor: number 
+  }
+
+  interface EventValues {
+    detail: {
+      amplitud : number;
+      amortiguamiento : number;
+      frecuencia : number;
+      graphGenerated: boolean;
+      valoresX : XValues[];
+    }
+  }
+
+  let amplitud : number;
+  let amortiguamiento : number;
+  let frecuencia : number;
   let showTabla = false;
-  let valoresX = [];
-  function handleUpdateValues(event) {
+  let valoresX : XValues[] = [];
+
+  function handleUpdateValues(event: EventValues) {
     amplitud = event.detail.amplitud;
     amortiguamiento = event.detail.amortiguamiento;
     frecuencia = event.detail.frecuencia;
