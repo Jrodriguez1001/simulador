@@ -1,33 +1,47 @@
-<script>
+<script lang="ts">
   import Chart from "chart.js/auto";
-  import { onMount } from "svelte";
-  let isMounted = false;
-  let valoresX = [];
+ 
+  interface XValues { 
+    tiempo: number, 
+    valor: number 
+  }
+
+  type Parametro = 'amplitud' | "amortiguamiento" | "frecuencia"
+
+  let valoresX : XValues[] = [];
 
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
-  let amplitud = null;
-  let amortiguamiento = null;
-  let frecuencia = null;
-  let eje_x = [];
-  let eje_x2 = [];
-  let eje_y = [];
-  let eje_y2 = [];
-  let eje_y3 = [];
-  let myChart;
-  let canvasElement;
+  let amplitud : number | null = null;
+  let amortiguamiento : number | null = null;
+  let frecuencia : number | null = null;
 
-  function calcular() {
-    if (amplitud === null || amortiguamiento === null || frecuencia === null) {
-      return;
-    }
+  let eje_x : number[] = [];
+  let eje_x2 : number[] = [];
+
+  let eje_y : number[] = [];
+  let eje_y2 : number[] = [];
+  let eje_y3 : number[] = [];
+
+  let myChart : Chart;
+  let canvasElement : HTMLCanvasElement;
+
+  function resetAxis() {
     eje_x = [];
     eje_x2 = [];
     eje_y = [];
     eje_y2 = [];
     eje_y3 = [];
+  }
+
+  function calcular() {
+    if (amplitud === null || amortiguamiento === null || frecuencia === null) {
+      return;
+    }
+    
+    resetAxis()
 
     for (
       let index = 0;
@@ -39,7 +53,8 @@
 
     const cuadrosPorMinuto = Math.trunc((Math.PI * 100) / frecuencia);
     eje_x.forEach((p) => {
-      eje_x2.push(p.toFixed(2));
+      const toPush = Number(p.toFixed(2))
+      eje_x2.push(toPush);
     });
 
     eje_x.forEach((p) => {
@@ -56,60 +71,61 @@
       myChart.destroy(); // Destruir el gráfico anterior si existe
     }
 
-    myChart = new Chart(canvasElement.getContext("2d"), {
-      type: "line",
-      data: {
-        labels: eje_x2,
-        datasets: [
-          {
-            label: "Amplitud vs Tiempo",
-            data: eje_y,
-            tension: 0.5,
-            borderWidth: 1,
-            spanGaps: true,
-          },
-          {
-            label: "Amplitud máxima",
-            data: eje_y2,
-            tension: 0.5,
-            spanGaps: true,
-            radius: 0,
-            borderWidth: 1,
-          },
-          {
-            label: "Amplitud mínima",
-            data: eje_y3,
-            tension: 0.5,
-            spanGaps: true,
-            radius: 0,
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: "Amplitud a través del tiempo",
-          },
+    myChart = new Chart(
+      canvasElement.getContext("2d"),
+      {
+        type: "line",
+        data: {
+          labels: eje_x2,
+          datasets: [
+            {
+              label: "Amplitud vs Tiempo",
+              data: eje_y,
+              tension: 0.5,
+              borderWidth: 1,
+              spanGaps: true,
+            },
+            {
+              label: "Amplitud máxima",
+              data: eje_y2,
+              tension: 0.5,
+              spanGaps: true,
+              borderWidth: 1,
+            },
+            {
+              label: "Amplitud mínima",
+              data: eje_y3,
+              tension: 0.5,
+              spanGaps: true,
+              borderWidth: 1,
+            },
+          ],
         },
-        scales: {
-          x: {
-            type: "linear",
+        options: {
+          plugins: {
             title: {
-              display: true, // Añadido
-              text: "Tiempo (s)", // Añadido
+              display: true,
+              text: "Amplitud a través del tiempo",
             },
           },
-          y: {
-            title: {
-              display: true, // Añadido
-              text: "Amplitud (m)", // Añadido
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true, // Añadido
+                text: "Tiempo (s)", // Añadido
+              },
+            },
+            y: {
+              title: {
+                display: true, // Añadido
+                text: "Amplitud (m)", // Añadido
+              },
             },
           },
         },
-      },
-    });
+      }
+    );
     dispatch("updateValues", {
       amplitud,
       amortiguamiento,
@@ -118,66 +134,57 @@
       valoresX,
     });
   }
-  function incrementarValor(tipo) {
-    if (tipo === "amplitud" && amplitud === null) {
-      amplitud = 0;
-    } else if (tipo === "amortiguamiento" && amortiguamiento === null) {
-      amortiguamiento = 0;
-    } else if (tipo === "frecuencia" && frecuencia === null) {
-      frecuencia = 0;
-    }
 
-    if (tipo === "amplitud") {
-      amplitud += 1;
-    } else if (tipo === "amortiguamiento") {
-      amortiguamiento += 1;
-    } else if (tipo === "frecuencia") {
-      frecuencia += 1;
-    }
+  
 
-    calcular();
-  }
-
-  function decrementarValor(tipo) {
-    // Si es null, establecer a 0
-    if (tipo === "amplitud" && amplitud === null) {
-      amplitud = 0;
-    } else if (tipo === "amortiguamiento" && amortiguamiento === null) {
-      amortiguamiento = 0;
-    } else if (tipo === "frecuencia" && frecuencia === null) {
-      frecuencia = 0;
-    }
-
-    // Decrementar el valor
-    if (tipo === "amplitud") {
-      amplitud -= 1;
-      if (amplitud < 0) amplitud = 0; // Asegurar que no sea menor que 0
-    } else if (tipo === "amortiguamiento") {
-      amortiguamiento -= 1;
-      if (amortiguamiento < 0) amortiguamiento = 0; // Asegurar que no sea menor que 0
-    } else if (tipo === "frecuencia") {
-      frecuencia -= 1;
-      if (frecuencia < 0) frecuencia = 0; // Asegurar que no sea menor que 0
+  function triggerValueChange(tipo: Parametro, value: number) {
+    switch (tipo) {
+      case "amplitud": {
+        if(amplitud === null) amplitud = 0
+        amplitud += value;
+        if(amplitud < 0) amplitud = 0;
+        break;
+      }
+      case "amortiguamiento": {
+        if(amortiguamiento === null) amortiguamiento = 0
+        amortiguamiento += value;
+        if(amortiguamiento < 0) amortiguamiento = 0;
+        break;
+      }
+      case "frecuencia": {
+        if(frecuencia === null) frecuencia = 0
+        frecuencia += value;
+        if(frecuencia < 0) frecuencia = 0;
+        break;
+      }
+      default: return tipo as never;
     }
 
     calcular();
   }
-  function handleInput(event, type) {
-    let value = event.target.value;
-    if (value === "") {
-      if (type === "amplitud") amplitud = null;
-      if (type === "amortiguamiento") amortiguamiento = null;
-      if (type === "frecuencia") frecuencia = null;
-    } else {
-      if (type === "amplitud") amplitud = +value;
-      if (type === "amortiguamiento") amortiguamiento = +value;
-      if (type === "frecuencia") frecuencia = +value;
+
+  function handleInput(event: Event, type: Parametro) {
+    const value = (event.target as HTMLInputElement).value;
+    switch (type) {
+      case "amplitud": {
+        if (value === "") return amplitud = null
+        amplitud = +value;
+        break;
+      }
+      case "amortiguamiento": {
+        if (value === "") return amortiguamiento = null
+        amortiguamiento = +value;
+        break;
+      }
+      case "frecuencia": {
+        if (value === "") return frecuencia = null
+        frecuencia = +value;
+        break;
+      }
+      default: return type as never;
     }
   }
-  onMount(() => {
-    isMounted = true;
-    // calcular();
-  });
+
   $: {
     valoresX = [];
     if (amplitud && amortiguamiento && frecuencia) {
@@ -221,9 +228,9 @@
           />
           <p>(metros)</p>
         </div>
-        <div>
-          <button on:click={() => decrementarValor("amplitud")}>-</button>
-          <button on:click={() => incrementarValor("amplitud")}>+</button>
+        <div class="button-container">
+          <button on:click={() => triggerValueChange("amplitud", -1)}>-</button>
+          <button on:click={() => triggerValueChange("amplitud", 1)}>+</button>
         </div>
       </div>
     </div>
@@ -240,10 +247,10 @@
           />
           <p>(s<sup>-1</sup>)</p>
         </div>
-        <div>
-          <button on:click={() => decrementarValor("amortiguamiento")}>-</button
+        <div class="button-container">
+          <button on:click={() => triggerValueChange("amortiguamiento", -1)}>-</button
           >
-          <button on:click={() => incrementarValor("amortiguamiento")}>+</button
+          <button on:click={() => triggerValueChange("amortiguamiento", 1)}>+</button
           >
         </div>
       </div>
@@ -262,9 +269,9 @@
           <p>(rad/s)</p>
         </div>
 
-        <div>
-          <button on:click={() => decrementarValor("frecuencia")}>-</button>
-          <button on:click={() => incrementarValor("frecuencia")}>+</button>
+        <div class="button-container">
+          <button on:click={() => triggerValueChange("frecuencia", -1)}>-</button>
+          <button on:click={() => triggerValueChange("frecuencia", 1)}>+</button>
         </div>
       </div>
     </div>
@@ -283,10 +290,10 @@
   .form {
     background-color: #ffffff;
     padding: 20px;
+    margin-bottom: 1em;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: fit-content;
-    margin: 20px auto;
   }
   .form input[type="number"] {
     margin-left: 10px;
@@ -302,30 +309,30 @@
     -webkit-appearance: none;
     margin: 0;
   }
-
   /* Estilo para quitar los spinners en Firefox */
   input[type="number"]::-moz-inner-spin-button,
   input[type="number"]::-moz-outer-spin-button {
     -moz-appearance: none;
     margin: 0;
   }
-
   /* Estilo para quitar los spinners en Internet Explorer */
   input[type="number"]::-ms-clear {
     display: none;
   }
-
+  .button-container {
+    display: flex;
+    gap: 0.5em
+  }
   .form button {
     background-color: #007bff; /* Color azul */
     color: #fff; /* Texto blanco */
     border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    margin-left: 5px;
-    cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+    border-radius: 2px;
+    width: 1.8em;
+    height: 1.8em;
+    cursor: pointer;
     transition: background-color 0.3s; /* Transición suave del color de fondo */
   }
-
   .form button:hover {
     background-color: #0056b3; /* Color azul oscuro al pasar el cursor por encima */
   }
@@ -359,8 +366,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    gap: 40px;
-    margin-bottom: 40px;
+    flex-direction: column;
+    flex: 1;
+    gap: 20px;
+    padding: 0 1em;
   }
 </style>

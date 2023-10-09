@@ -12,12 +12,13 @@
 </div>
 <div>La fórmula para la amplitud por instante de tiempo es:</div>
 <div>
-  x = {amplitud}e<sup>-{amortiguamiento}t</sup>sen({frecuencia}t)
+  x = {amplitud ?? '?'}e<sup>-{amortiguamiento ?? '?'}t</sup>sen({frecuencia ?? '?'}t)
 </div>
 <div>
-    tabulamos los valores de x para cada instante de tiempo
+    Se tabulan los valores de x para cada instante de tiempo:
 </div>
-<table>
+{#if amplitud && amortiguamiento && frecuencia}
+  <table>
     <thead>
       <tr>
         <th>Tiempo (s)</th>
@@ -33,3 +34,21 @@
       {/each}
     </tbody>
   </table>
+{/if}  
+
+<style>
+  table {
+    min-width: 40%;
+    margin: auto;
+    margin-top: 1.4em;
+    border-collapse: collapse;
+  }
+  th {
+    font-weight: 500;
+  }
+  table th, table td {
+    border: 1px solid gray;
+    text-align: center;
+    padding: 0.2em 0;
+  }
+</style>
