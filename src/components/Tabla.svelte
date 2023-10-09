@@ -35,3 +35,20 @@
     </tbody>
   </table>
 {/if}  
+
+<style>
+  table {
+    min-width: 40%;
+    margin: auto;
+    margin-top: 1.4em;
+    border-collapse: collapse;
+  }
+  th {
+    font-weight: 500;
+  }
+  table th, table td {
+    border: 1px solid gray;
+    text-align: center;
+    padding: 0.2em 0;
+  }
+</style>

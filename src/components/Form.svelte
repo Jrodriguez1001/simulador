@@ -228,7 +228,7 @@
           />
           <p>(metros)</p>
         </div>
-        <div>
+        <div class="button-container">
           <button on:click={() => triggerValueChange("amplitud", -1)}>-</button>
           <button on:click={() => triggerValueChange("amplitud", 1)}>+</button>
         </div>
@@ -247,7 +247,7 @@
           />
           <p>(s<sup>-1</sup>)</p>
         </div>
-        <div>
+        <div class="button-container">
           <button on:click={() => triggerValueChange("amortiguamiento", -1)}>-</button
           >
           <button on:click={() => triggerValueChange("amortiguamiento", 1)}>+</button
@@ -269,7 +269,7 @@
           <p>(rad/s)</p>
         </div>
 
-        <div>
+        <div class="button-container">
           <button on:click={() => triggerValueChange("frecuencia", -1)}>-</button>
           <button on:click={() => triggerValueChange("frecuencia", 1)}>+</button>
         </div>
@@ -290,10 +290,10 @@
   .form {
     background-color: #ffffff;
     padding: 20px;
+    margin-bottom: 1em;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: fit-content;
-    margin: 20px auto;
   }
   .form input[type="number"] {
     margin-left: 10px;
@@ -309,30 +309,30 @@
     -webkit-appearance: none;
     margin: 0;
   }
-
   /* Estilo para quitar los spinners en Firefox */
   input[type="number"]::-moz-inner-spin-button,
   input[type="number"]::-moz-outer-spin-button {
     -moz-appearance: none;
     margin: 0;
   }
-
   /* Estilo para quitar los spinners en Internet Explorer */
   input[type="number"]::-ms-clear {
     display: none;
   }
-
+  .button-container {
+    display: flex;
+    gap: 0.5em
+  }
   .form button {
     background-color: #007bff; /* Color azul */
     color: #fff; /* Texto blanco */
     border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    margin-left: 5px;
-    cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+    border-radius: 2px;
+    width: 1.8em;
+    height: 1.8em;
+    cursor: pointer;
     transition: background-color 0.3s; /* Transición suave del color de fondo */
   }
-
   .form button:hover {
     background-color: #0056b3; /* Color azul oscuro al pasar el cursor por encima */
   }
@@ -364,11 +364,11 @@
   }
   .contenedero{
     display: flex;
-    flex: 1;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    flex: 1;
     gap: 20px;
-    margin-bottom: 40px;
+    padding: 0 1em;
   }
 </style>

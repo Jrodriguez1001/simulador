@@ -49,9 +49,7 @@
     </div>
     <Tabla {amplitud} {amortiguamiento} {frecuencia} {valoresX} /> 
   </div>
-  <div>
-    <Form on:updateValues={handleUpdateValues} />
-  </div>
+  <Form on:updateValues={handleUpdateValues} />
 </main>
 
 <style>
@@ -60,21 +58,21 @@
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
     font-family: Arial, sans-serif;
     width: 100%;
     margin-top: 120px;
   }
-.container h1{
-  margin-bottom: 2em;
-  text-align: center;
-}
-.contentLayout {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 2em;
-}
+  .container h1{
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  .contentLayout {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 1.8em;
+    border-right: 1px solid gray;
+  }
   .description {
     display: flex;
     justify-content: center;
@@ -86,8 +84,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
-    margin-bottom: 60px;
+    gap: 0.8em;
+    margin-bottom: 1.2em;
   }
   .ecuacion-one {
     border-radius: 10px;
