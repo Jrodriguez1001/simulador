@@ -207,67 +207,71 @@
   }
 </script>
 
-<div class="form">
-  <div class="input-only">
-    <p class="label-text">Amplitud (<em>A</em>):</p>
-    <div class="input-btns">
-      <div class="input-p">
-        <input
-          value={amplitud !== null ? amplitud : ""}
-          on:input={(event) => handleInput(event, "amplitud")}
-          type="number"
-          min="0"
-        />
-        <p>(metros)</p>
+<div class="contenedero">
+  <div class="form">
+    <div class="input-only">
+      <p class="label-text">Amplitud (<em>A</em>):</p>
+      <div class="input-btns">
+        <div class="input-p">
+          <input
+            value={amplitud !== null ? amplitud : ""}
+            on:input={(event) => handleInput(event, "amplitud")}
+            type="number"
+            min="0"
+          />
+          <p>(metros)</p>
+        </div>
+        <div>
+          <button on:click={() => decrementarValor("amplitud")}>-</button>
+          <button on:click={() => incrementarValor("amplitud")}>+</button>
+        </div>
       </div>
-      <div>
-        <button on:click={() => decrementarValor("amplitud")}>-</button>
-        <button on:click={() => incrementarValor("amplitud")}>+</button>
+    </div>
+
+    <div class="input-only">
+      <p class="label-text">Coeficiente de amortiguamiento (-&gamma;):</p>
+      <div class="input-btns">
+        <div class="input-p">
+          <input
+            value={amortiguamiento !== null ? amortiguamiento : ""}
+            on:input={(event) => handleInput(event, "amortiguamiento")}
+            type="number"
+            min="0"
+          />
+          <p>(s<sup>-1</sup>)</p>
+        </div>
+        <div>
+          <button on:click={() => decrementarValor("amortiguamiento")}>-</button
+          >
+          <button on:click={() => incrementarValor("amortiguamiento")}>+</button
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="input-only">
+      <p class="label-text">Frecuencia angular (&omega;):</p>
+      <div class="input-btns">
+        <div class="input-p">
+          <input
+            value={frecuencia !== null ? frecuencia : ""}
+            on:input={(event) => handleInput(event, "frecuencia")}
+            type="number"
+            min="0"
+          />
+          <p>(rad/s)</p>
+        </div>
+
+        <div>
+          <button on:click={() => decrementarValor("frecuencia")}>-</button>
+          <button on:click={() => incrementarValor("frecuencia")}>+</button>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="input-only">
-    <p class="label-text">Coeficiente de amortiguamiento (-&gamma;):</p>
-    <div class="input-btns">
-      <div class="input-p">
-        <input
-          value={amortiguamiento !== null ? amortiguamiento : ""}
-          on:input={(event) => handleInput(event, "amortiguamiento")}
-          type="number"
-          min="0"
-        />
-        <p>(s<sup>-1</sup>)</p>
-      </div>
-      <div>
-        <button on:click={() => decrementarValor("amortiguamiento")}>-</button>
-        <button on:click={() => incrementarValor("amortiguamiento")}>+</button>
-      </div>
-    </div>
+  <div id="contenedor">
+    <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
   </div>
-
-  <div class="input-only">
-    <p class="label-text">Frecuencia angular (&omega;):</p>
-    <div class="input-btns">
-      <div class="input-p">
-        <input
-          value={frecuencia !== null ? frecuencia : ""}
-          on:input={(event) => handleInput(event, "frecuencia")}
-          type="number"
-          min="0"
-        />
-        <p>(rad/s)</p>
-      </div>
-
-      <div>
-        <button on:click={() => decrementarValor("frecuencia")}>-</button>
-        <button on:click={() => incrementarValor("frecuencia")}>+</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="contenedor">
-  <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
 </div>
 
 <style>
@@ -348,7 +352,15 @@
     justify-content: space-between;
     align-items: center;
   }
-  .input-p input{
+  .input-p input {
     margin-right: 5px;
+  }
+  .contenedero{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 40px;
+    margin-bottom: 40px;
   }
 </style>

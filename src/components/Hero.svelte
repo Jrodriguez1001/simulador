@@ -49,7 +49,9 @@
     width: 100%;
     margin-top: 120px;
   }
-
+.container h1{
+  margin-bottom: 60px;
+}
   .description {
     display: flex;
     justify-content: center;
@@ -62,7 +64,7 @@
     justify-content: center;
     align-items: center;
     gap: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
   }
   .ecuacion-one {
     border-radius: 10px;
