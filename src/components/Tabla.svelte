@@ -3,6 +3,7 @@
   export let amortiguamiento;
   export let frecuencia;
   export let valoresX = [];
+  $: console.log(valoresX);
 </script>
 
 <p>Para encontrar los tiempos de Amplitud máxima y Amplitud mínima</p>
@@ -14,7 +15,7 @@
   <div>
     <p>La fórmula para la amplitud por instante de tiempo es:</p>
     <div class="amplitudeContainer">
-      x = {amplitud}e<sup>-{amortiguamiento}t</sup>sen({frecuencia}t)
+      x = {amplitud}e<sup>-{amortiguamiento}</sup>sen({frecuencia}t)
     </div>
   </div>
   <div>
