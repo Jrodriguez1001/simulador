@@ -51,9 +51,13 @@
     font-weight: 500;
   }
   table th, table td {
-    border: 1px solid gray;
+    border: 5px solid white; 
     text-align: center;
     padding: 0.5em;
+    background-color: #1D6FB8;
+    color:white;
+    border-radius: 12px;
+
   }
   .amplitudeContainer {
     text-align: center;

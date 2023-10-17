@@ -10,57 +10,44 @@ nav = [
 ---
 
 <div class="container">
-  <div>
-    <a href="#">
-    <img src="/assets/logo-untels.png" alt="Logo" width="200" /></a>
-  </div>
-  <div>
-    <nav>
-      <ul>
-        {
-          nav[0].map((item) => (
-            <li>
-              <a href={item.href}>{item.name}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <nav class="nav-container">
+        <ul class="nav-list">
+          <li>
+            <a href="/">Simulador</a>
+          </li>
+          <li class="lista">
+            <img src="/assets/logo-untels.png" alt="Logo" height="40px" /></a>
+          </li>
+          <li>
+            <a href="#">Docentes</a>
+          </li>
+        </ul>
     </nav>
-  </div>
 </div>
 <style>
   .container {
-    margin: 0;
-    padding: 30px 0; 
-    display: flex;
-    justify-content: space-around; 
-    align-items: center;
-    flex-direction: row; 
-    font-family: Arial, sans-serif;
-    width: 100%;
-    position: fixed; 
-    top: 0; /* Se posiciona al inicio del viewport */
-    background-color: white; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: .2rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.159); 
     z-index: 1000; 
+    background-color: white;
   }
 
-  /* Estilo para el logo */
-  .container img {
-    margin-right: auto; 
+  .nav-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-list {
+    display: flex;
+    
+    list-style-type: none;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
   }
 
   /* Estilo para la navegación */
-  nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-
-  nav li {
-    margin: 0 10px;
-  }
 
   nav a {
     text-decoration: none;
@@ -78,4 +65,7 @@ nav = [
       0,
       0.05
     ); 
+
+  }
+    
 </style>

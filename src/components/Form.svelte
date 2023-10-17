@@ -214,7 +214,7 @@
   }
 </script>
 
-<div class="contenedero">
+<div>
   <div class="form">
     <div class="input-only">
       <p class="label-text">Amplitud (<em>A</em>):</p>
@@ -284,8 +284,8 @@
 <style>
   #myChart {
     display: block;
-    max-width: 600px;
-    height: 400px;
+    max-width: 460px;
+    height: 260px;
   }
   .form {
     background-color: #ffffff;
@@ -293,7 +293,7 @@
     margin-bottom: 1em;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: fit-content;
+    width: 100%;
   }
   .form input[type="number"] {
     margin-left: 10px;
@@ -347,6 +347,7 @@
   }
   .label-text {
     width: 50%;
+    font-size: 1rem;
   }
   .input-btns {
     display: flex;
@@ -362,13 +363,5 @@
   .input-p input {
     margin-right: 5px;
   }
-  .contenedero{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    flex: 1;
-    gap: 20px;
-    padding: 0 1em;
-  }
+
 </style>
