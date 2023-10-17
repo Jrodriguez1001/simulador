@@ -1,8 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.svelte";
+import Particles from "../components/Particles.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-  <Hero client:load/>
+  <div class="particle-container">
+    <Particles />
+    <div class="hero-container">
+      <Hero client:load />
+    </div>
+  </div>
 </Layout>
+
+
+<style>
+  /* styles.css o styles.scss */
+
+.particle-container {
+  position: absolute; /* Para que los elementos hijos se posicionen en relación con este contenedor */
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  height: 100vh; /* Ajusta la altura según tus necesidades */
+}
+
+.hero-container {
+  position: absolute; /* Para que el héroe se posicione en relación con el contenedor de partículas */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  height: 100%; /* Ajusta la altura según tus necesidades */
+}
+
+</style>
