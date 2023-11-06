@@ -18,6 +18,9 @@
   let amortiguamiento : number | null = null;
   let frecuencia : number | null = null;
 
+  let maxAmp : number;
+  let timeouts : number[] = []
+
   let eje_x : number[] = [];
   let eje_x2 : number[] = [];
 
@@ -28,6 +31,9 @@
   let myChart : Chart;
   let canvasElement : HTMLCanvasElement;
 
+  let squareAmp : HTMLDivElement;
+  let squareContainer : HTMLDivElement;
+
   function resetAxis() {
     eje_x = [];
     eje_x2 = [];
@@ -37,7 +43,16 @@
   }
 
   function calcular() {
-    if (amplitud === null || amortiguamiento === null || frecuencia === null) {
+    resetMovements()
+
+    if (
+      amplitud === null || 
+      amortiguamiento === null || 
+      frecuencia === null ||
+      amplitud === 0 || 
+      amortiguamiento === 0 || 
+      frecuencia === 0
+    ) {
       return;
     }
     
@@ -133,9 +148,8 @@
       graphGenerated: true,
       valoresX,
     });
+    triggerSquare();
   }
-
-  
 
   function triggerValueChange(tipo: Parametro, value: number) {
     switch (tipo) {
@@ -185,13 +199,58 @@
     }
   }
 
+  function findRelativeValue (val1: number, range1: number, range2: number) {
+    return val1 * range2 / range1
+  }
+
+  function translateTo(duration: number, val: number) {
+    squareAmp.style.transitionDuration = duration + 's'
+    squareAmp.style.translate = `0 calc(-50% + ${val*-1}px)`
+  }
+
+  function resetMovements() {
+    timeouts.forEach(t=>clearTimeout(t))
+    timeouts = []
+    translateTo(0, 0)
+  }
+
+  function triggerSquare() {
+    const timeAxis = [...eje_x]
+    const ampAxis = [...eje_y]
+    
+    const squareContainerTotalHeight = squareContainer.getBoundingClientRect().height
+    const maxY = Math.max(...ampAxis)
+    const rangeY = maxY*2
+
+    maxAmp = maxY;
+
+    const movement : { time: number, val: number }[] = []
+
+    timeAxis.forEach((val, i)=>{
+      const valY = ampAxis[i]
+      const realValue = findRelativeValue(valY, rangeY, squareContainerTotalHeight)
+      movement.push({
+        time: val,
+        val: realValue
+      })
+    })
+
+    movement.forEach(({ time, val }, i)=> {
+      const timeoutId = setTimeout(()=>{
+        const deltaSeconds = i !== movement.length - 1 ? movement[i+1].time - time : time;
+        translateTo(deltaSeconds, val)
+      }, time*1000)
+      timeouts.push(timeoutId)
+    })
+    
+  }
+
   $: {
     valoresX = [];
     if (amplitud && amortiguamiento && frecuencia) {
       calcular();
       for (let t = 1; t <= 10; t++) {
-        let x =
-          amplitud * Math.exp(-amortiguamiento ) * Math.sin(frecuencia * t);
+        let x = amplitud * Math.exp(-amortiguamiento ) * Math.sin(frecuencia * t);
         valoresX.push({ tiempo: t, valor: x });
       }
       dispatch("updateValues", {
@@ -276,8 +335,17 @@
       </div>
     </div>
   </div>
-  <div id="contenedor">
-    <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
+  <div class="table-main-container">
+    <div id="contenedor">
+      <canvas id="myChart" bind:this={canvasElement} width="600" height="400" />
+    </div>
+    <div class="amp-square-container" bind:this={squareContainer}>
+      <div class="amp-square" bind:this={squareAmp}></div>
+      <div class="divider"/>
+      <div class="top-mark">{maxAmp ?? '?'}</div>
+      <div class="start-mark"> - 0</div>
+      <div class="bottom-mark">{(maxAmp ? maxAmp*-1 : '?')}</div>
+    </div>
   </div>
 </div>
 
@@ -286,6 +354,9 @@
     display: block;
     max-width: 460px;
     height: 260px;
+  }
+  #contenedor {
+    flex: 1;
   }
   .form {
     background-color: #ffffff;
@@ -348,6 +419,55 @@
   .label-text {
     width: 50%;
     font-size: 1rem;
+  }
+  .table-main-container {
+    display: flex;
+  }
+  .amp-square-container {
+    color: gray;
+    position: relative;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    width: 14px;
+  }
+  .amp-square {
+    content: "";
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 100%;
+    background-color: gray;
+  }
+  .divider {
+    content: "";
+    position: absolute;
+    height: 106%;
+    right: 0;
+    top: 3px;
+    display: block;
+    border-right: 1px solid gray;
+  }
+  .start-mark {
+    position: absolute;
+    text-wrap: nowrap;
+    margin-top: -2px;
+    left: 95%;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .top-mark {
+    position: absolute;
+    text-wrap: nowrap;
+    left: 120%;
+    top: -2%;
+  }
+  .bottom-mark {
+    position: absolute;
+    text-wrap: nowrap;
+    left: 120%;
+    top: 102%;
   }
   .input-btns {
     display: flex;

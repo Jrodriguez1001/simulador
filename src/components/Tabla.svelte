@@ -3,7 +3,6 @@
   export let amortiguamiento;
   export let frecuencia;
   export let valoresX = [];
-  $: console.log(valoresX);
 </script>
 
 <p>Para encontrar los tiempos de Amplitud máxima y Amplitud mínima</p>
