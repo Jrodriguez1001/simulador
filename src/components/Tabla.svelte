@@ -26,9 +26,7 @@
 {/if}
 
 <style>
-  p {
-    font-size: 1em;
-  }
+ 
   table {
     min-width: 40%;
     margin: auto;
@@ -47,15 +45,5 @@
     color: white;
     border-radius: 12px;
   }
-  .amplitudeContainer {
-    text-align: center;
-    margin-bottom: 2em;
-  }
-  .formula {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-    margin-bottom: 0.5em;
-  }
+  
 </style>
