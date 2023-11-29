@@ -115,7 +115,7 @@
           },
         ],
       },
-      options: {
+      options: {                
         plugins: {
           title: {
             display: true,
@@ -364,6 +364,7 @@
 
 <style>
   .form {
+    flex: 1;
     background-color: #ffffff;
     padding: 20px;
     margin-bottom: 1em;
@@ -454,8 +455,10 @@
   }
 
   .one {
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
   .two {
     display: flex;

@@ -1,6 +1,5 @@
 <script lang="ts">
   import Form from "./Form.svelte";
-  import Tabla from "./Tabla.svelte";
 
   interface XValues {
     tiempo: number;
@@ -38,7 +37,6 @@
 
     <div class="content-container">
       <Form on:updateValues={handleUpdateValues} />
-      <div class="content-one"></div>
     </div>
   </div>
 </main>
