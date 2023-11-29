@@ -3,10 +3,12 @@
   export let amortiguamiento;
   export let frecuencia;
   export let valoresX = [];
+  $:show = amplitud && amortiguamiento && frecuencia
 </script>
 
-{#if amplitud && amortiguamiento && frecuencia}
-  <div>
+
+  <div class="main-table-cont">
+    {#if show}
     <div>Se tabulan los valores de x para cada instante de tiempo:</div>
     <table>
       <tr>
@@ -22,15 +24,20 @@
         {/each}
       </tr>
     </table>
+    {/if}
   </div>
-{/if}
+
 
 <style>
- 
+ .main-table-cont{
+  flex: 1;
+  width: 600px;
+ }
+
   table {
     min-width: 40%;
     margin: auto;
-    margin-top: 1.6em;
+    margin-top: 1rem;
     border-collapse: collapse;
   }
   th {
