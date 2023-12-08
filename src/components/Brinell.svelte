@@ -1,151 +1,110 @@
-<script lang="ts">
-    import { createEventDispatcher } from "svelte";
+<script>
+    let D = 10; // Diámetro de la esfera (puedes cambiar este valor)
+    let masa = 1; 
+    let d = getRandomDiameter(); // Diámetro de la muesca aleatorio entre 2 y 8
+    let result = null; // Variable para almacenar el resultado del cálculo
   
-    const dispatch = createEventDispatcher();
+    function calculateBrinellHardness() {
+      // Fórmula para el cálculo de dureza Brinell: HB = (2 * F) / (π * D * √(D^2 - d^2))
+      let F = 2 * masa * 9.807; // Fuerza = 2 * masa * gravedad de la Tierra
+      let HB = (2*F) / ((Math.PI * D) * (D - Math.sqrt(D * D - d * d)));
+      result = `La dureza Brinell es: ${HB.toFixed(2)}`;
+    }
   
-    let diametroEsfera: number | null = null;
-    let diametroHuella: number | null = null;
-    let cargaAplicada: number | null = null;
-    let resultadoBrinell: number | null = null;
-  
-    function calcularDurezaBrinell() {
-      if (
-        diametroEsfera !== null &&
-        diametroHuella !== null &&
-        cargaAplicada !== null
-      ) {
-        const D = parseFloat(diametroEsfera);
-        const d = parseFloat(diametroHuella);
-        const P = parseFloat(cargaAplicada);
-  
-        const durezaBrinell =
-          (2 * P) / (Math.PI * D * (D - Math.sqrt(D ** 2 - d ** 2)));
-  
-        resultadoBrinell = durezaBrinell.toFixed(2);
-  
-        // Envía el resultado al componente padre
-        dispatch("updateDurezaBrinell", resultadoBrinell);
-      } else {
-        // Manejar el caso en el que no se ingresaron todos los valores necesarios
-        alert("Ingrese todos los valores necesarios para calcular la dureza Brinell.");
-      }
+    function getRandomDiameter() {
+      // Generar un diámetro aleatorio entre 2 y 8
+      return Math.random() * (8 - 2) + 2;
     }
   </script>
   
-  <div class="brinell-container">
-    <h2>Prueba de Dureza Brinell</h2>
-  
-    <div class="form">
-      <div class="input-only">
-        <p class="label-text">Diámetro de la esfera (D):</p>
-        <input
-          value={diametroEsfera !== null ? diametroEsfera : ""}
-          on:input={(event) => (diametroEsfera = event.target.value)}
-          type="number"
-          min="0"
-        />
-      </div>
-  
-      <div class="input-only">
-        <p class="label-text">Diámetro de la huella (d):</p>
-        <input
-          value={diametroHuella !== null ? diametroHuella : ""}
-          on:input={(event) => (diametroHuella = event.target.value)}
-          type="number"
-          min="0"
-        />
-      </div>
-  
-      <div class="input-only">
-        <p class="label-text">Carga aplicada (P):</p>
-        <input
-          value={cargaAplicada !== null ? cargaAplicada : ""}
-          on:input={(event) => (cargaAplicada = event.target.value)}
-          type="number"
-          min="0"
-        />
-      </div>
-  
-      <button on:click={calcularDurezaBrinell}>Calcular Dureza Brinell</button>
-  
-      {#if resultadoBrinell !== null}
-        <p>Resultado Dureza Brinell: {resultadoBrinell}</p>
-      {/if}
-    </div>
-  </div>
-  
   <style>
-    .brinell-container {
+    /* Estilos para el formulario */
+    main {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+  
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  
+    form {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  
-    .form {
-      background-color: #ffffff;
+      max-width: 300px;
+      margin: auto;
+      background-color: #f4f4f4;
       padding: 20px;
-      margin-top: 1em;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
   
-    .input-only {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    label {
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #333;
     }
   
-    .label-text {
-      width: 50%;
-      font-size: 1rem;
-    }
-  
-    input[type="number"] {
-      margin-left: 10px;
-      padding: 5px;
+    input {
+      margin-bottom: 16px;
+      padding: 10px;
+      font-size: 14px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-      width: 50px;
-    }
-  
-    /* Estilo para quitar los spinners en navegadores basados en WebKit (Chrome, Safari, etc.) */
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  
-    /* Estilo para quitar los spinners en Firefox */
-    input[type="number"]::-moz-inner-spin-button,
-    input[type="number"]::-moz-outer-spin-button {
-      -moz-appearance: none;
-      margin: 0;
-    }
-  
-    /* Estilo para quitar los spinners en Internet Explorer */
-    input[type="number"]::-ms-clear {
-      display: none;
+      border-radius: 4px;
     }
   
     button {
-      background-color: #007bff; /* Color azul */
-      color: #fff; /* Texto blanco */
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
       border: none;
-      border-radius: 2px;
-      width: 1.8em;
-      height: 1.8em;
       cursor: pointer;
-      transition: background-color 0.3s; /* Transición suave del color de fondo */
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
     }
   
     button:hover {
-      background-color: #0056b3; /* Color azul oscuro al pasar el cursor por encima */
+      background-color: #45a049;
     }
   
-    button:active {
-      background-color: #003d80; /* Color azul aún más oscuro al hacer clic */
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #fff;
+      background-color: #4caf50;
+      padding: 10px;
+      border-radius: 4px;
     }
   </style>
+  
+  <main>
+    <h1>Calculadora de Dureza Brinell</h1>
+  
+    <form on:submit|preventDefault={calculateBrinellHardness}>
+      <label>
+        Diámetro de la esfera (D):
+        <input type="number" bind:value={D} step="0.1" />
+      </label>
+  
+      <label>
+        Masa (Kilopondio):
+        <input type="number" bind:value={masa} step="0.1" />
+      </label>
+  
+      <label>
+        Diámetro de la muesca (d):
+        <input type="text" value={d.toFixed(2)} readonly />
+      </label>
+  
+      <button type="submit">Calcular Dureza Brinell</button>
+    </form>
+  
+    {#if result}
+      <div class="result">{result}</div>
+    {/if}
+  </main>
   
