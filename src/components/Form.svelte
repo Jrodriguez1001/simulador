@@ -115,7 +115,7 @@
           },
         ],
       },
-      options: {                
+      options: {
         plugins: {
           title: {
             display: true,
@@ -447,7 +447,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 50px;
-    gap:1rem;
+    gap: 1rem;
   }
 
   .image img {
