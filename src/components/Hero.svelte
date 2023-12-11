@@ -38,6 +38,7 @@
     <div class="content-container">
       <Form on:updateValues={handleUpdateValues} />
     </div>
+  
   </div>
 </main>
 
@@ -68,4 +69,5 @@
     border-radius: 10px;
     /* width: 100%; */
   }
+  
 </style>
