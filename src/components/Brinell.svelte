@@ -14,6 +14,7 @@
   function calculateBrinellHardness() {
     F = 2 * masa * 9.807;
     HB = (2 * F) / (Math.PI * D * (D - Math.sqrt(D * D - ballSize * ballSize)));
+
     console.log(HB);
   }
 
@@ -21,7 +22,22 @@
     return Math.floor(Math.random() * 7) + 2;
   }
 
+  //validmos los inputs
+  function validateInputs() {
+    if (D == null || D == "") {
+      alert("Ingrese el diámetro de la esfera");
+      return false;
+    }
+    if (masa == null || masa == "") {
+      alert("Ingrese la masa");
+      return false;
+    }
+    return true;
+  }
+
   function startAnimation() {
+    if (!validateInputs()) return;
+
     calculateBrinellHardness();
     ballPosition = ballSize / 30;
 
@@ -46,7 +62,15 @@
     isAnimating = false;
     startAnimation();
   }
-
+  function cancelAnimation() {
+    if (interval) {
+      clearInterval(interval);
+    }
+    isAnimating = false;
+    timeElapsed = 0;
+    ballPosition = 0;
+    // Resetear cualquier otro estado o valor si es necesario
+  }
   onMount(() => {
     return () => {
       if (interval) clearInterval(interval);
@@ -60,32 +84,56 @@
     <div class="content">
       <div class="right">
         <div>
-          <div>
-            Diámetro de la esfera (D):
-            <input type="number" bind:value={D} step="0.1" />
+          <div class="input-form">
+            Diámetro de la bola de acero (mm):
+            <input type="number" bind:value={D} step="0.1" required />
+          </div>
+          <div class="input-form">
+            Fuerza a Ejecutar (Kgf):
+            <input type="number" bind:value={masa} step="0.1" required />
           </div>
           <div>
-            Masa (Kilopondio):
-            <input type="number" bind:value={masa} step="0.1" />
+            <h4>Sugerencias</h4>
+            <ul>
+              <li>Diametro de la bola: 10 mm</li>
+              <li>Dureza: 187.5 a 3000 Kgf</li>
+            </ul>
           </div>
-          {#if timeElapsed == totalTime}
-            <div class="result">{HB}</div>
-          {/if}
         </div>
         <div>
-          <button on:click={startAnimation} disabled={isAnimating}
-            >Iniciar Animación</button
+          <button
+            on:click={startAnimation}
+            class="button button-primary"
+            disabled={isAnimating}>Iniciar Animación</button
           >
-          <button on:click={resetAnimation}>Volver a Empezar</button>
-          <div class="time"><p>Tiempo: {timeElapsed}s</p></div>
+          {#if timeElapsed > 0 && timeElapsed < totalTime}
+            <button on:click={cancelAnimation} class="button button-secondary"
+              >Cancelar</button
+            >
 
+            <button on:click={resetAnimation} class="button button-primary"
+              >Volver a Empezar</button
+            >
+          {/if}
+          {#if timeElapsed > 0}
+            <div class="time"><p>Tiempo: {timeElapsed}s</p></div>
+          {/if}
+          {#if timeElapsed == totalTime}
+            <div class="result">
+              <div>
+                El tamaño de la muesca es <span>{ballSize}mm</span>
+              </div>
+              <div>
+                El número de Brinner es <span>{HB.toFixed(4)}</span>
+              </div>
+            </div>
+          {/if}
         </div>
       </div>
 
       <div class="left">
-
-        <div class="rectangulo">
-          <div class="ball" style="bottom: {200 - ballPosition}px"></div>
+        <div class="rectangulo"> Material
+          <div class="ball" style="bottom: {200 - ballPosition}px">Acero</div>
         </div>
       </div>
     </div>
@@ -93,6 +141,13 @@
 </section>
 
 <style>
+  .input-form {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    gap: 10px;
+  }
+
   .title {
     margin-bottom: 100px;
   }
@@ -109,7 +164,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-
+    gap: 50px;
   }
   h1 {
     color: #333;
@@ -129,14 +184,17 @@
   }
 
   .result {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 18px;
-    color: #fff;
-    background-color: #4caf50;
+    font-size: 14px;
+    color: #333;
     padding: 10px;
     border-radius: 4px;
+    border: 2px solid #333;
   }
+
+  .result span {
+    font-weight: bold;
+  }
+
   section {
     display: flex;
     flex-direction: column;
@@ -151,24 +209,67 @@
     flex-direction: column;
     height: 600px;
     align-items: center;
-    margin-top: 100px;
+    margin: 50px 0px;
     padding: 40px;
   }
   .ball {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #555;
+    background-color: #292F36;
     z-index: 1;
     position: absolute;
     bottom: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
   }
   .rectangulo {
     width: 100%;
+    font-size: 18px;
+    font-weight: 600;
     height: 200px;
-    background-color: #888;
+    background-color: #FFC857;
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+
+  .button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .button-primary {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  .button-primary:hover {
+    background-color: #3e8e41;
+  }
+
+  .button-secondary {
+    background-color: #ff6b6b;
+    color: white;
+  }
+
+  .button-secondary:hover {
+    background-color: #ff5c5c;
+  }
+
+  .button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
   }
 </style>
