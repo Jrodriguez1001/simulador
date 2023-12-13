@@ -84,6 +84,7 @@
     <div class="content">
       <div class="right">
         <div>
+          <img src="/assets/imagen1.png" alt="formula de brinnel">
           <div class="input-form">
             Diámetro de la bola de acero (mm):
             <input type="number" bind:value={D} step="0.1" required />
@@ -133,7 +134,7 @@
 
       <div class="left">
         <div class="rectangulo"> Material
-          <div class="ball" style="bottom: {200 - ballPosition}px">Acero</div>
+          <div class="ball" style="bottom: {200 - ballPosition * 3}px">Acero</div>
         </div>
       </div>
     </div>
@@ -272,4 +273,9 @@
     color: #666;
     cursor: not-allowed;
   }
+
+.right img{
+  width: 200px;
+  align-self: center;
+}
 </style>
