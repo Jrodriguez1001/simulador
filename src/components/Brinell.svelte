@@ -1,21 +1,26 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
 
-  let D;
+  let D: string;
+  let masa: string;
   let ballSize = getRandomDiameter();
-  let masa;
-  let F;
-  let HB;
+  let F: number;
+  let HB: number;
   const totalTime = 30;
   let timeElapsed = 0;
   let ballPosition = 0;
   let isAnimating = false;
   let interval;
   function calculateBrinellHardness() {
-    F = 2 * masa * 9.807;
-    HB = (2 * F) / (Math.PI * D * (D - Math.sqrt(D * D - ballSize * ballSize)));
-
-    console.log(HB);
+    const gravity = 9.807;
+    const numMasa = parseFloat(masa);
+    const diameter = parseFloat(D);
+    F = 2 * numMasa * gravity;
+    HB = (2 * F) / (Math.PI * diameter * (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))));
+    console.log(Math.PI * diameter * (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))))
+    console.log(Math.pow(diameter, 2))
+    console.log(Math.pow(ballSize, 2))
+    console.log(F)
   }
 
   function getRandomDiameter() {
@@ -80,7 +85,7 @@
 
 <section>
   <div class="container">
-    <div class="title"><h1>Calculadora de Dureza Brinell</h1></div>
+    <h1>Calculadora de Dureza Brinell</h1>
     <div class="content">
       <div class="right">
         <div>
@@ -149,9 +154,6 @@
     gap: 10px;
   }
 
-  .title {
-    margin-bottom: 100px;
-  }
   .left {
     display: flex;
     flex-direction: column;
@@ -205,9 +207,10 @@
   .container {
     background-color: #fff;
     border-radius: 20px;
-    width: 50%;
+    min-width: 70%;
     display: flex;
     flex-direction: column;
+    gap: 40px;
     height: 600px;
     align-items: center;
     margin: 50px 0px;
