@@ -1,15 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/Hero.svelte";
 import Particles from "../components/Particles.astro";
-import Brinell from "../components/Brinell.svelte";
+import BrinellC from "../components/Brinell.svelte";
 ---
 
 <Layout title="Welcome to Astro.">
   <div class="particle-container">
     <Particles />
     <div class="hero-container">
-      <Hero client:load />
+      <BrinellC client:load />
     </div>
   </div>
 </Layout>

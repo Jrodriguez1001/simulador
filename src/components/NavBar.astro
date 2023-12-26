@@ -11,33 +11,36 @@ nav = [
 
 <header class="container">
   <nav class="nav-container">
+    <div class="div-img">
+      <a href="/"
+        ><img src="/assets/logo-untels.png" alt="Logo" height="40px" />
+      </a>
+    </div>
     <ul class="nav-list">
+      <li class="lista"></li>
       <li>
-        <p>Simulador</p>
+        <a href="/">Simulador</a>
       </li>
-      <li class="lista">
-        <img src="/assets/logo-untels.png" alt="Logo" height="40px" /></a>
+      <li>
+        <a href="brinell">Brinell</a>
       </li>
       <li class="integrantes-label">
-        <p class="label">Integrantes</p>
-        <div class="name-list">
-          <ul>
-            <li>Guillermo Pablo</li>
-            <li>Ochoa Carbajal, Hernan</li>
-            <li>Gonzales Gomez, Dylan Carusso</li>
-            <li>Rodriguez Jean Piere</li>
-            <li>Gomez Huamani, Steve Edward</li>
-          </ul>
-        </li>
-      </li>      
+        <a href="/integrantes">Integrantes</a>
+      </li>
     </ul>
   </nav>
 </header>
+
 <style>
+  .div-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .container {
-    padding: .2rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.159); 
-    z-index: 1000; 
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.159);
+    z-index: 1000;
     background-color: white;
   }
 
@@ -76,12 +79,11 @@ nav = [
   }
 
   .name-list li {
-    font-size: .75rem;
+    font-size: 0.75rem;
   }
 
   .nav-list {
     display: flex;
-    
     list-style-type: none;
     align-items: center;
     justify-content: center;
@@ -94,19 +96,14 @@ nav = [
     text-decoration: none;
     color: black;
     font-weight: bold;
-    padding: 5px 10px; 
+    font-size: 1rem;
+    padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.3s; 
+    transition: background-color 0.3s;
   }
 
   nav a:hover {
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.05
-    ); 
-
+    background-color: rgba(0, 0, 0, 0.05);
   }
-    
+
 </style>
