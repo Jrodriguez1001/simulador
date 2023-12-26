@@ -130,7 +130,7 @@
                 El tamaño de la muesca es <span>{ballSize}mm</span>
               </div>
               <div>
-                El número de Brinner es <span>{HB.toFixed(4)}</span>
+                El número de Brinner es <span>{HB.toFixed(4)}Kgf</span>
               </div>
             </div>
           {/if}
