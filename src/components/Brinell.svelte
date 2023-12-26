@@ -211,7 +211,7 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
-    height: 600px;
+    height: 800px;
     align-items: center;
     margin: 50px 0px;
     padding: 40px;
