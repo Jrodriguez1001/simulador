@@ -16,11 +16,19 @@
     const numMasa = parseFloat(masa);
     const diameter = parseFloat(D);
     F = 2 * numMasa * gravity;
-    HB = (2 * F) / (Math.PI * diameter * (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))));
-    console.log(Math.PI * diameter * (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))))
-    console.log(Math.pow(diameter, 2))
-    console.log(Math.pow(ballSize, 2))
-    console.log(F)
+    HB =
+      (2 * F) /
+      (Math.PI *
+        diameter *
+        (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))));
+    console.log(
+      Math.PI *
+        diameter *
+        (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2)))
+    );
+    console.log(Math.pow(diameter, 2));
+    console.log(Math.pow(ballSize, 2));
+    console.log(F);
   }
 
   function getRandomDiameter() {
@@ -85,11 +93,11 @@
 
 <section>
   <div class="container">
-    <h1>Calculadora de Dureza Brinell</h1>
+    <h1>Simulador de Dureza Brinell</h1>
     <div class="content">
       <div class="right">
         <div>
-          <img src="/assets/imagen1.png" alt="formula de brinnel">
+          <img src="/assets/imagen1.png" alt="formula de brinnel" />
           <div class="input-form">
             Diámetro de la bola de acero (mm):
             <input type="number" bind:value={D} step="0.1" required />
@@ -130,7 +138,9 @@
                 El tamaño de la muesca es <span>{ballSize}mm</span>
               </div>
               <div>
-                El número de Brinner es <span>{HB.toFixed(4)}Kgf</span>
+                El número de Brinner es <span
+                  >{HB.toFixed(4)}N/mm<sup>2</sup>
+                </span>
               </div>
             </div>
           {/if}
@@ -138,8 +148,11 @@
       </div>
 
       <div class="left">
-        <div class="rectangulo"> Material
-          <div class="ball" style="bottom: {200 - ballPosition * 3}px">Acero</div>
+        <div class="rectangulo">
+          Material
+          <div class="ball" style="bottom: {200 - ballPosition * 3}px">
+            Acero
+          </div>
         </div>
       </div>
     </div>
@@ -220,7 +233,7 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #292F36;
+    background-color: #292f36;
     z-index: 1;
     position: absolute;
     bottom: 100%;
@@ -234,7 +247,7 @@
     font-size: 18px;
     font-weight: 600;
     height: 200px;
-    background-color: #FFC857;
+    background-color: #ffc857;
     position: relative;
     display: flex;
     justify-content: center;
@@ -277,8 +290,8 @@
     cursor: not-allowed;
   }
 
-.right img{
-  width: 200px;
-  align-self: center;
-}
+  .right img {
+    width: 200px;
+    align-self: center;
+  }
 </style>
