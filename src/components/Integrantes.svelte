@@ -8,7 +8,7 @@
           <ul>
             <li>Gonzales Ormeño, Pablo Guillermo</li>
             <li>Herrera Salazar, José Luis</li>
-            <li>Ochoa Carbajal, Hernan</li>
+            <li>Ochoa Carbajal, Hernán</li>
             <li>Arqque Pantigozo Antonio</li>
             <li>Peláez Osorio, Mario</li>
           </ul>
