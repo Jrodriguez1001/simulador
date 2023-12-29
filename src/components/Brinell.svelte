@@ -139,7 +139,7 @@
               </div>
               <div>
                 El número de Brinner es <span
-                  >{HB.toFixed(4)}N/mm<sup>2</sup>
+                  >{HB.toFixed(4)} N/mm<sup>2</sup>
                 </span>
               </div>
             </div>
