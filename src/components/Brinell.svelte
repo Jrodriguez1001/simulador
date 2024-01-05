@@ -12,23 +12,15 @@
   let isAnimating = false;
   let interval;
   function calculateBrinellHardness() {
-    const gravity = 9.807;
+    const gravity = 9.80665;
     const numMasa = parseFloat(masa);
     const diameter = parseFloat(D);
-    F = 2 * numMasa * gravity;
+    F = numMasa * gravity;
     HB =
       (2 * F) /
       (Math.PI *
         diameter *
         (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2))));
-    console.log(
-      Math.PI *
-        diameter *
-        (diameter - Math.sqrt(Math.pow(diameter, 2) - Math.pow(ballSize, 2)))
-    );
-    console.log(Math.pow(diameter, 2));
-    console.log(Math.pow(ballSize, 2));
-    console.log(F);
   }
 
   function getRandomDiameter() {
